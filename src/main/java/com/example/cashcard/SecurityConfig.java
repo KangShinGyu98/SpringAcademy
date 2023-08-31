@@ -14,23 +14,17 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-
 @Configuration
 public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests()
                 .requestMatchers("/cashcards/**")
-                .hasRole("CARD-OWNER")
+                .hasRole("CARD-OWNER") // enable RBAC: Replace the .authenticated() code with this line.
                 .and()
                 .csrf().disable()
                 .httpBasic();
         return http.build();
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
     }
 
     @Bean
@@ -46,6 +40,16 @@ public class SecurityConfig {
                 .password(passwordEncoder.encode("qrs456"))
                 .roles("NON-OWNER") // new role
                 .build();
-        return new InMemoryUserDetailsManager(sarah, hankOwnsNoCards);
+        UserDetails kumar = users
+                .username("kumar2")
+                .password(passwordEncoder.encode("xyz789"))
+                .roles("CARD-OWNER") // new role
+                .build();
+
+        return new InMemoryUserDetailsManager(sarah,hankOwnsNoCards,kumar);
+    }
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }
