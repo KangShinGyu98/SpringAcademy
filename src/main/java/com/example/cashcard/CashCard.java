@@ -13,7 +13,7 @@ import lombok.Getter;
 public class CashCard {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Double amount;
     private String owner;

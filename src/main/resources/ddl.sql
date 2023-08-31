@@ -1,4 +1,4 @@
-drop table cash_card;
+
 CREATE TABLE cash_card
 (
     ID       BIGINT auto_increment PRIMARY KEY,
